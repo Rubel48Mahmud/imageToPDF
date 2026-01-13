@@ -12,103 +12,206 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS Same as before */
-        :root { --primary: #4F46E5; --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); --bg-body: #F8FAFC; --bg-card: #FFFFFF; --text-main: #0F172A; --text-sub: #64748B; --border: #E2E8F0; --danger: #EF4444; }
+        :root {
+            --primary: #4F46E5;
+            --primary-gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            --bg-body: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --text-main: #0F172A;
+            --text-sub: #64748B;
+            --border: #E2E8F0;
+            --danger: #EF4444;
+            --success: #10B981;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
-        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 0.8rem 5%; position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header --- */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
         .brand { cursor: pointer; display: flex; align-items: center; gap: 12px; }
         .brand-icon { width: 38px; height: 38px; background: var(--primary-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.1rem; }
         .brand-text h1 { font-size: 1.2rem; font-weight: 700; color: var(--text-main); line-height: 1.1; }
-        .brand-text span { font-size: 0.7rem; color: var(--text-sub); font-weight: 600; text-transform: uppercase; display: block; }
-        .settings-btn { background: transparent; border: 1px solid transparent; width: 40px; height: 40px; border-radius: 50%; color: var(--text-main); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .brand-text span { font-size: 0.7rem; color: var(--text-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; }
+        
+        .settings-btn { background: transparent; border: 1px solid transparent; width: 40px; height: 40px; border-radius: 50%; color: var(--text-main); font-size: 1.2rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .settings-btn:hover { background: #F1F5F9; color: var(--primary); }
+
+        /* --- Container --- */
         .container { max-width: 800px; width: 92%; margin: 2rem auto; flex: 1; }
-        .upload-area { background: var(--bg-card); border: 2px dashed #CBD5E1; border-radius: 16px; padding: 2.5rem 1rem; text-align: center; cursor: pointer; transition: 0.3s; }
-        .upload-area:hover, .upload-area.dragover { border-color: var(--primary); background: #EFF6FF; }
+
+        /* --- Upload Section --- */
+        .upload-area { background: var(--bg-card); border: 2px dashed #CBD5E1; border-radius: 16px; padding: 2.5rem 1rem; text-align: center; cursor: pointer; transition: all 0.3s ease; }
+        .upload-area.dragover { border-color: var(--primary); background: #EFF6FF; transform: scale(1.02); }
         .icon-circle { width: 60px; height: 60px; background: #EEF2FF; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: var(--primary); font-size: 1.5rem; }
-        .browse-text { color: var(--primary); font-weight: 600; text-decoration: underline; }
+        .upload-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .upload-desc { color: var(--text-sub); font-size: 0.85rem; margin-bottom: 1rem; }
+        .browse-text { color: var(--primary); font-weight: 600; font-size: 0.9rem; text-decoration: underline; }
+
+        /* --- Grid Section --- */
         .grid-wrapper { display: none; }
         .grid-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .action-link { color: var(--primary); background: none; border: none; font-weight: 600; cursor: pointer; }
+        .grid-header h3 { font-size: 1rem; font-weight: 600; }
+        .header-actions { display: flex; gap: 15px; }
+        .action-link { color: var(--primary); background: none; border: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
         .action-link.danger { color: var(--danger); }
+
         .image-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 2rem; }
         @media (max-width: 600px) { .image-grid { grid-template-columns: repeat(3, 1fr); } }
+
         .img-card { aspect-ratio: 1; background: white; border-radius: 8px; position: relative; overflow: hidden; border: 1px solid var(--border); cursor: grab; }
         .img-card img { width: 100%; height: 100%; object-fit: cover; }
-        .del-btn { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; background: rgba(255,255,255,0.9); border-radius: 50%; border: none; color: var(--danger); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .del-btn { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; background: rgba(255,255,255,0.9); border-radius: 50%; border: none; color: var(--danger); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
         .see-all-card { background: var(--primary-gradient); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        .btn-main { background: var(--primary-gradient); color: white; border: none; padding: 0.8rem 2.5rem; border-radius: 30px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); display: inline-flex; align-items: center; gap: 8px; }
+
+        .action-area { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        
+        /* Buttons */
+        .btn-main { background: var(--primary-gradient); color: white; border: none; padding: 0.8rem 2.5rem; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-main:active { transform: scale(0.98); }
+
+        /* Updated Secondary Button (New) */
+        .btn-secondary {
+            background: white;
+            color: var(--text-main);
+            border: 2px solid var(--border);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: #EFF6FF;
+            transform: translateY(-2px);
+        }
+
+        /* --- Result Section --- */
         #result-section { display: none; text-align: center; padding-top: 1rem; }
-        .file-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; max-width: 400px; margin: 0 auto 2rem; display: flex; align-items: center; gap: 15px; text-align: left; }
+        .file-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; max-width: 400px; margin: 0 auto 2rem; display: flex; align-items: center; gap: 15px; text-align: left; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); }
         .pdf-icon-lg { font-size: 2.5rem; color: #DC2626; }
-        .filename-input { font-family: inherit; font-size: 1rem; font-weight: 600; border: none; border-bottom: 1px dashed var(--text-sub); width: 100%; background: transparent; padding: 2px 0; }
+        .filename-input { font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--text-main); border: 1px solid transparent; border-bottom: 1px dashed var(--text-sub); width: 100%; background: transparent; padding: 2px 0; transition: border 0.2s; }
         .filename-input:focus { border-bottom: 1px solid var(--primary); }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 100; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; pointer-events: none; transition: 0.3s; }
+        .file-meta { font-size: 0.8rem; color: var(--text-sub); margin-top: 4px; }
+
+        /* --- Settings & Confirm Modal --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 100; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; pointer-events: none; transition: all 0.3s ease; }
         .modal-overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
-        .settings-panel, .confirm-box { background: white; width: 90%; max-width: 340px; padding: 1.5rem; border-radius: 16px; transform: scale(0.9); transition: 0.3s; }
+
+        .settings-panel, .confirm-box { background: white; width: 90%; max-width: 340px; padding: 1.5rem; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .modal-overlay.active .settings-panel, .modal-overlay.active .confirm-box { transform: scale(1); }
+
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; border-bottom: 1px solid #F1F5F9; padding-bottom: 10px; }
+        .panel-header h3 { font-size: 1.1rem; font-weight: 700; }
+        .close-btn { background: none; border: none; font-size: 1.2rem; color: var(--text-sub); cursor: pointer; }
+
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-sub); }
         select { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; background: #F8FAFC; }
         .save-btn { background: var(--text-main); color: white; width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
-        #toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 10px; }
-        .toast { background: #1E293B; color: white; padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 500; opacity: 0; animation: toastIn 0.3s forwards; }
+
+        /* Confirm Box Specific */
+        .confirm-box h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .confirm-box p { color: var(--text-sub); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .confirm-actions { display: flex; gap: 10px; }
+        .confirm-actions button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+        .btn-cancel { background: #F1F5F9; color: var(--text-main); }
+        .btn-confirm { background: var(--danger); color: white; }
+
+        /* --- Toast Notification --- */
+        #toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 10px; width: max-content; }
+        .toast { background: #1E293B; color: white; padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0; animation: toastIn 0.3s forwards; display: flex; align-items: center; gap: 8px; }
         .toast.error { background: #EF4444; }
         @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Loader */
         .loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 200; display: none; justify-content: center; align-items: center; flex-direction: column; }
         .spinner { width: 40px; height: 40px; border: 4px solid #E2E8F0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .confirm-actions { display: flex; gap: 10px; margin-top: 1.5rem; }
-        .confirm-actions button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
-        .btn-cancel { background: #F1F5F9; } .btn-confirm { background: var(--danger); color: white; }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
         <div class="brand" onclick="location.reload()">
             <div class="brand-icon"><i class="fa-solid fa-file-pdf"></i></div>
-            <div class="brand-text"><h1>AR PDF</h1><span>image to pdf</span></div>
+            <div class="brand-text">
+                <h1>AR PDF</h1>
+                <span>image to pdf</span>
+            </div>
         </div>
-        <button class="settings-btn" onclick="toggleSettings()"><i class="fa-solid fa-gear"></i></button>
+        <button class="settings-btn" onclick="toggleSettings()">
+            <i class="fa-solid fa-gear"></i>
+        </button>
     </header>
 
     <div class="container">
-        <!-- Upload -->
+        <!-- 1. Upload Section -->
         <div id="upload-view" class="upload-area" onclick="document.getElementById('fileInput').click()">
             <div class="icon-circle"><i class="fa-solid fa-images"></i></div>
-            <h2 style="font-size:1.1rem; font-weight:700; margin-bottom:0.3rem">Select or Drop Images</h2>
-            <p style="color:var(--text-sub); font-size:0.85rem; margin-bottom:1rem">JPG, PNG or WEBP</p>
+            <h2 class="upload-title">Select or Drop Images</h2>
+            <p class="upload-desc">JPG, PNG or WEBP</p>
             <span class="browse-text">Browse Files</span>
             <input type="file" id="fileInput" accept="image/*" multiple hidden onchange="handleFiles(this.files)">
         </div>
 
-        <!-- Grid -->
+        <!-- 2. Grid Section -->
         <div id="grid-view" class="grid-wrapper">
             <div class="grid-header">
                 <h3>Images (<span id="count-label">0</span>)</h3>
-                <div style="display:flex; gap:15px">
-                    <button class="action-link danger" onclick="confirmClearAll()"><i class="fa-solid fa-trash"></i></button>
-                    <button class="action-link" onclick="document.getElementById('fileInput').click()"><i class="fa-solid fa-plus"></i> Add</button>
+                <div class="header-actions">
+                    <button class="action-link danger" onclick="confirmClearAll()" title="Clear All"><i class="fa-solid fa-trash"></i></button>
+                    <button class="action-link" onclick="document.getElementById('fileInput').click()" title="Add More"><i class="fa-solid fa-plus"></i> Add</button>
                 </div>
             </div>
             <div class="image-grid" id="imageGrid"></div>
-            <div style="text-align:center"><button class="btn-main" onclick="generatePDF()">Convert to PDF <i class="fa-solid fa-arrow-right"></i></button></div>
+            <div class="action-area">
+                <button class="btn-main" onclick="generatePDF()">Convert to PDF <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
         </div>
 
-        <!-- Result -->
+        <!-- 3. Result Section -->
         <div id="result-section">
-            <h2 style="font-size:1.5rem; margin-bottom:1.5rem">PDF Ready!</h2>
+            <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">PDF Ready!</h2>
             <div class="file-card">
                 <i class="fa-solid fa-file-pdf pdf-icon-lg"></i>
-                <div style="width:100%"><input type="text" id="pdf-name-input" class="filename-input" value="document.pdf"><div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px" id="pdf-size">0 KB</div></div>
-                <i class="fa-solid fa-pen" style="color:#cbd5e1; font-size:0.8rem"></i>
+                <div style="width: 100%;">
+                    <input type="text" id="pdf-name-input" class="filename-input" value="document.pdf">
+                    <div class="file-meta" id="pdf-size">0 KB</div>
+                </div>
+                <i class="fa-solid fa-pen" style="color:#cbd5e1; font-size: 0.8rem;"></i>
             </div>
-            <div style="display:flex; gap:10px; justify-content:center">
+            <div style="display: flex; gap: 10px; justify-content: center;">
                 <button id="downloadBtn" class="btn-main"><i class="fa-solid fa-download"></i> Download</button>
-                <button class="btn-main" style="background:#E2E8F0; color:#334155; box-shadow:none" onclick="location.reload()">New</button>
+                <button class="btn-secondary" onclick="location.reload()"><i class="fa-solid fa-plus"></i> New</button>
             </div>
         </div>
     </div>
@@ -116,145 +219,221 @@
     <!-- Settings Modal -->
     <div class="modal-overlay" id="settingsModal" onclick="if(event.target === this) toggleSettings()">
         <div class="settings-panel">
-            <div class="panel-header"><h3>PDF Settings</h3><button class="close-btn" style="background:none; border:none; font-size:1.2rem; cursor:pointer" onclick="toggleSettings()"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="panel-header">
+                <h3>PDF Settings</h3>
+                <button class="close-btn" onclick="toggleSettings()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="form-group">
+                <label>PDF Quality</label>
+                <select id="quality">
+                    <option value="0.6" selected>Normal (Low Size)</option>
+                    <option value="0.8">Medium (Standard)</option>
+                    <option value="1.0">High (Original)</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <label>Page Size</label>
-                <select id="pageSize"><option value="a4">A4 (Standard)</option><option value="letter">Letter</option><option value="fit">Fit Image</option></select>
+                <select id="pageSize">
+                    <option value="a4">A4 (Standard)</option>
+                    <option value="letter">Letter</option>
+                    <option value="fit">Fit Image</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>Orientation</label>
-                <select id="orientation"><option value="p">Portrait</option><option value="l">Landscape</option></select>
+                <select id="orientation">
+                    <option value="p">Portrait</option>
+                    <option value="l">Landscape</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>Margins</label>
-                <select id="margin"><option value="normal">Normal</option><option value="small">Small</option><option value="none">None</option></select>
+                <select id="margin">
+                    <option value="normal">Normal</option>
+                    <option value="small">Small</option>
+                    <option value="none">None</option>
+                </select>
             </div>
-            <div class="form-group">
-                <label>Quality</label>
-                <select id="quality"><option value="0.75">Standard</option><option value="1.0">Original</option><option value="0.5">Compressed</option></select>
-            </div>
+            
             <button class="save-btn" onclick="toggleSettings()">Done</button>
         </div>
     </div>
 
-    <!-- Confirm Modal -->
+    <!-- Custom Confirmation Modal -->
     <div class="modal-overlay" id="confirmModal">
         <div class="confirm-box">
-            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:0.5rem">Remove All?</h3>
-            <p style="color:var(--text-sub); font-size:0.9rem">This will clear your workspace.</p>
+            <h3>Are you sure?</h3>
+            <p>This will remove all selected images and start over.</p>
             <div class="confirm-actions">
                 <button class="btn-cancel" onclick="closeConfirmModal()">Cancel</button>
-                <button class="btn-confirm" onclick="executeConfirm()">Yes, Clear</button>
+                <button class="btn-confirm" onclick="executeConfirm()">Yes, Remove</button>
             </div>
         </div>
     </div>
 
+    <!-- Toast Container -->
     <div id="toast-container"></div>
-    <div class="loader-overlay" id="loader"><div class="spinner"></div><p style="margin-top:15px; font-weight:600; color:var(--text-main); font-size:0.9rem">Processing...</p></div>
+
+    <!-- Loader -->
+    <div class="loader-overlay" id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; font-weight: 600; color: var(--text-main); font-size: 0.9rem;">Processing...</p>
+    </div>
 
     <script>
         const { jsPDF } = window.jspdf;
         let imagesData = [];
         let isExpanded = false;
         let generatedPdfBlob = null;
-        let pendingAction = null;
-
-        // --- Core Functions ---
+        let pendingAction = null; 
+        
+        // Elements
+        const gridView = document.getElementById('grid-view');
+        const uploadView = document.getElementById('upload-view');
+        const resultView = document.getElementById('result-section');
+        const imageGrid = document.getElementById('imageGrid');
+        const countLabel = document.getElementById('count-label');
         const uploadArea = document.querySelector('.upload-area');
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => uploadArea.addEventListener(e, (evt) => { evt.preventDefault(); evt.stopPropagation(); }));
+
+        // Drag & Drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => uploadArea.addEventListener(evt, preventDefaults, false));
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
         uploadArea.addEventListener('dragover', () => uploadArea.classList.add('dragover'));
         uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-        uploadArea.addEventListener('drop', (e) => { uploadArea.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+        uploadArea.addEventListener('drop', (e) => {
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
 
+        // UI Functions
         function toggleSettings() { document.getElementById('settingsModal').classList.toggle('active'); }
-        
-        function showToast(msg, type='success') {
+
+        function showToast(msg, type = 'success') {
             const container = document.getElementById('toast-container');
-            const div = document.createElement('div');
-            div.className = `toast ${type}`;
-            div.innerHTML = `<i class="fa-solid ${type=='error'?'fa-circle-exclamation':'fa-check-circle'}"></i> ${msg}`;
-            container.appendChild(div);
-            setTimeout(()=> { div.style.opacity='0'; setTimeout(()=>div.remove(), 300); }, 3000);
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'error' ? 'fa-circle-exclamation' : 'fa-check-circle';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
-        // Confirm Modal
-        function confirmClearAll() { document.getElementById('confirmModal').classList.add('active'); pendingAction = () => location.reload(); }
-        function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('active'); pendingAction = null; }
-        function executeConfirm() { if(pendingAction) pendingAction(); closeConfirmModal(); }
+        // Custom Confirm Modal Logic
+        function confirmClearAll() {
+            document.getElementById('confirmModal').classList.add('active');
+            pendingAction = () => location.reload();
+        }
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            pendingAction = null;
+        }
+        function executeConfirm() {
+            if (pendingAction) pendingAction();
+            closeConfirmModal();
+        }
 
-        // --- NEW: FIXED HANDLE FILES FUNCTION ---
-        async function handleFiles(files) {
+        // File Handling
+        function handleFiles(files) {
             if (!files.length) return;
-
-            // 1. ফাইলগুলোকে অ্যারেতে কনভার্ট করে নাম অনুযায়ী সাজানো হচ্ছে (Name Sorting)
-            // এতে গ্যালারির সিরিয়াল ঠিক থাকার সম্ভাবনা বেড়ে যায় (যেমন: IMG_01, IMG_02)
-            const fileArray = Array.from(files).sort((a, b) => a.name.localeCompare(b.name));
-
-            // 2. Promise ব্যবহার করে ফাইল রিড করা হচ্ছে যাতে লোডিং এর সময় সিরিয়াল ব্রেক না হয়
-            const fileReadingPromises = fileArray.map(file => {
-                return new Promise((resolve) => {
-                    if(!file.type.startsWith('image/')) {
-                        resolve(null);
-                        return;
-                    }
-                    const reader = new FileReader();
-                    reader.onload = (e) => resolve({ src: e.target.result });
-                    reader.onerror = () => resolve(null);
-                    reader.readAsDataURL(file);
-                });
+            let count = 0;
+            Array.from(files).forEach(file => {
+                if(!file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagesData.push({ src: e.target.result });
+                    count++;
+                    if(count === files.length || count === 1) renderGrid(); 
+                };
+                reader.readAsDataURL(file);
             });
-
-            // 3. সব ফাইল রিড শেষ না হওয়া পর্যন্ত অপেক্ষা করবে
-            const newImages = await Promise.all(fileReadingPromises);
-
-            // 4. Null ভ্যালু বাদ দিয়ে মেইন লিস্টে যোগ করা
-            newImages.forEach(img => {
-                if(img) imagesData.push(img);
-            });
-
-            document.getElementById('upload-view').style.display = 'none';
-            document.getElementById('grid-view').style.display = 'block';
-            renderGrid();
+            uploadView.style.display = 'none';
+            gridView.style.display = 'block';
             showToast(`${files.length} Image(s) Added`);
         }
 
         function renderGrid() {
-            const grid = document.getElementById('imageGrid');
-            grid.innerHTML = '';
-            document.getElementById('count-label').innerText = imagesData.length;
-            
-            const max = 8;
-            const truncate = !isExpanded && imagesData.length > max;
-            const limit = truncate ? max - 1 : imagesData.length;
+            imageGrid.innerHTML = '';
+            countLabel.innerText = imagesData.length;
+            const maxVisible = 8; 
+            const shouldTruncate = !isExpanded && imagesData.length > maxVisible;
+            const itemsToShow = shouldTruncate ? maxVisible - 1 : imagesData.length;
 
-            for(let i=0; i<limit; i++) {
-                const div = document.createElement('div');
-                div.className = 'img-card';
-                div.innerHTML = `<img src="${imagesData[i].src}"><button class="del-btn" onclick="removeImage(${i})"><i class="fa-solid fa-xmark"></i></button>`;
-                grid.appendChild(div);
+            for (let i = 0; i < itemsToShow; i++) {
+                const img = imagesData[i];
+                const card = document.createElement('div');
+                card.className = 'img-card';
+                card.innerHTML = `<img src="${img.src}"><button class="del-btn" onclick="removeImage(${i})"><i class="fa-solid fa-xmark"></i></button>`;
+                imageGrid.appendChild(card);
             }
 
-            if(truncate) {
-                const div = document.createElement('div');
-                div.className = 'img-card see-all-card';
-                div.innerHTML = `<div style="font-size:1.5rem; font-weight:700">+${imagesData.length - limit}</div><div style="font-size:0.75rem">See All</div>`;
-                div.onclick = () => { isExpanded = true; renderGrid(); };
-                grid.appendChild(div);
+            if (shouldTruncate) {
+                const remaining = imagesData.length - itemsToShow;
+                const seeAllCard = document.createElement('div');
+                seeAllCard.className = 'img-card see-all-card';
+                seeAllCard.innerHTML = `<div style="font-size:1.5rem; font-weight:700">+${remaining}</div><div style="font-size:0.75rem">See All</div>`;
+                seeAllCard.onclick = () => { isExpanded = true; renderGrid(); };
+                imageGrid.appendChild(seeAllCard);
             }
-            
-            if (isExpanded || imagesData.length <= max) {
-                new Sortable(grid, { animation: 150, ghostClass: 'sortable-ghost', onEnd: (evt) => {
-                    const item = imagesData.splice(evt.oldIndex, 1)[0];
-                    imagesData.splice(evt.newIndex, 0, item);
-                }});
+
+            if (isExpanded || imagesData.length <= maxVisible) {
+                new Sortable(imageGrid, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function (evt) {
+                        const item = imagesData.splice(evt.oldIndex, 1)[0];
+                        imagesData.splice(evt.newIndex, 0, item);
+                    }
+                });
             }
         }
 
-        window.removeImage = (i) => { imagesData.splice(i, 1); if(imagesData.length<=8) isExpanded=false; renderGrid(); if(!imagesData.length) location.reload(); };
+        window.removeImage = function(index) {
+            imagesData.splice(index, 1);
+            if(imagesData.length <= 8) isExpanded = false;
+            renderGrid();
+            if (imagesData.length === 0) location.reload();
+        }
+
+        // --- Compression Helper ---
+        // Keeps original dimensions but adjusts JPEG quality
+        function getCompressedImage(base64Str, quality = 0.6) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = base64Str;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                    
+                    // Apply Quality from Settings
+                    const newBase64 = canvas.toDataURL('image/jpeg', quality);
+                    resolve(newBase64);
+                };
+            });
+        }
 
         window.generatePDF = async function() {
-            if (!imagesData.length) return showToast("No images selected", "error");
-            document.getElementById('loader').style.display = 'flex';
+            if (imagesData.length === 0) {
+                showToast("Please select images first", "error");
+                return;
+            }
+
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            
+            // Get Quality Value from Settings
+            const qualityVal = parseFloat(document.getElementById('quality').value);
+
             await new Promise(r => setTimeout(r, 500));
 
             try {
@@ -264,48 +443,56 @@
                     format: document.getElementById('pageSize').value === 'fit' ? 'a4' : document.getElementById('pageSize').value
                 });
 
-                const width = doc.internal.pageSize.getWidth();
-                const height = doc.internal.pageSize.getHeight();
-                const mVal = document.getElementById('margin').value;
-                const margin = mVal === 'none' ? 0 : (mVal === 'small' ? 5 : 10);
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const marginSetting = document.getElementById('margin').value;
+                let margin = marginSetting === 'none' ? 0 : (marginSetting === 'small' ? 5 : 10);
 
                 for (let i = 0; i < imagesData.length; i++) {
                     if (i > 0) doc.addPage();
-                    const img = imagesData[i].src;
-                    const props = doc.getImageProperties(img);
-                    const availW = width - (margin * 2);
-                    const availH = height - (margin * 2);
-                    const ratio = Math.min(availW / props.width, availH / props.height);
-                    const w = props.width * ratio;
-                    const h = props.height * ratio;
-                    const x = (width - w) / 2;
-                    const y = (height - h) / 2;
-                    doc.addImage(img, 'JPEG', x, y, w, h, undefined, 'FAST');
+                    
+                    // Compress Image based on chosen quality
+                    // Normal = 0.6, Medium = 0.8, High = 1.0
+                    const finalImgData = await getCompressedImage(imagesData[i].src, qualityVal);
+                    
+                    const imgProps = doc.getImageProperties(finalImgData);
+                    const availableWidth = pageWidth - (margin * 2);
+                    const availableHeight = pageHeight - (margin * 2);
+                    const ratio = Math.min(availableWidth / imgProps.width, availableHeight / imgProps.height);
+                    const w = imgProps.width * ratio;
+                    const h = imgProps.height * ratio;
+                    const x = (pageWidth - w) / 2;
+                    const y = (pageHeight - h) / 2;
+                    
+                    doc.addImage(finalImgData, 'JPEG', x, y, w, h, undefined, 'FAST');
                 }
 
                 generatedPdfBlob = doc.output('blob');
                 
-                document.getElementById('grid-view').style.display = 'none';
-                document.getElementById('result-section').style.display = 'block';
+                gridView.style.display = 'none';
+                resultView.style.display = 'block';
+
+                const dateStr = new Date().toISOString().slice(0,10);
+                document.getElementById('pdf-name-input').value = `AR-PDF-${dateStr}.pdf`;
                 
-                const date = new Date().toISOString().slice(0,10);
-                document.getElementById('pdf-name-input').value = `AR-PDF-${date}.pdf`;
-                document.getElementById('pdf-size').textContent = `${(generatedPdfBlob.size / 1024).toFixed(1)} KB`;
+                // Show size in MB
+                const sizeInMB = generatedPdfBlob.size / 1024 / 1024;
+                document.getElementById('pdf-size').textContent = `${sizeInMB.toFixed(2)} MB`;
                 
                 showToast("PDF Created Successfully!");
 
                 document.getElementById('downloadBtn').onclick = () => {
-                    let name = document.getElementById('pdf-name-input').value;
-                    if(!name.endsWith('.pdf')) name += '.pdf';
-                    doc.save(name);
+                    let fileName = document.getElementById('pdf-name-input').value;
+                    if(!fileName.endsWith('.pdf')) fileName += '.pdf';
+                    doc.save(fileName);
                     showToast("Downloading...");
                 };
 
             } catch (error) {
                 console.error(error);
-                showToast("Error creating PDF", "error");
+                showToast("Error generating PDF!", "error");
             } finally {
-                document.getElementById('loader').style.display = 'none';
+                loader.style.display = 'none';
             }
         }
     </script>
